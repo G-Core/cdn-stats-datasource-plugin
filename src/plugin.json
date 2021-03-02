@@ -49,7 +49,7 @@
           "headers": [
               {
                   "name": "Authorization",
-                  "content": "Bearer {{ .SecureJsonData.apiKey }}"
+                  "content": "{{ .SecureJsonData.apiKey }}"
               }
           ]
       },
@@ -59,7 +59,7 @@
           "headers": [
               {
                   "name": "Authorization",
-                  "content": "Bearer {{ .SecureJsonData.apiKey }}"
+                  "content": "{{ .SecureJsonData.apiKey }}"
               }
           ]
       }
