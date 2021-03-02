@@ -148,7 +148,9 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     return await getBackendSrv().datasourceRequest({
       method: 'POST',
       url: this.url + '/statistics/aggregate/stats',
-      params: {"service": "CDN"},
+      params: {
+          "service": "CDN"
+      },
       responseType: 'json',
       showErrorAlert: true,
       data,
