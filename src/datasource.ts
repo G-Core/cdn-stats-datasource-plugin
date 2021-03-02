@@ -1,4 +1,4 @@
-import defaults from 'lodash/defaults';
+import defaults from "lodash/defaults";
 
 import {
   DataQueryRequest,
@@ -10,16 +10,24 @@ import {
   Labels,
   // MutableField,
   toDataFrame,
-} from '@grafana/data';
+} from "@grafana/data";
 
-import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { getBackendSrv, getTemplateSrv } from "@grafana/runtime";
 
-import { MyQuery, MyDataSourceOptions, MyVariableQuery, StatsRequestData, defaultQuery } from './types';
+import {
+  MyQuery,
+  MyDataSourceOptions,
+  MyVariableQuery,
+  StatsRequestData,
+  defaultQuery,
+} from "./types";
 
 export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
   url?: string;
 
-  constructor(instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>) {
+  constructor(
+    instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>
+  ) {
     super(instanceSettings);
 
     this.url = instanceSettings.url;
@@ -31,23 +39,23 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     }
 
     const response = await getBackendSrv().datasourceRequest({
-      method: 'GET',
-      url: this.url + '/resources',
-      responseType: 'json',
+      method: "GET",
+      url: this.url + "/resources",
+      responseType: "json",
       showErrorAlert: true,
-      params: { fields: 'id,cname,client', status: 'active' },
+      params: { fields: "id,cname,client", status: "active" },
     });
 
     return response.data
-      .map((frame: any) => ({ text: frame[query.selector.value || ''] }))
+      .map((frame: any) => ({ text: frame[query.selector.value || ""] }))
       .filter((v: any, i: any, a: any) => a.indexOf(v) === i);
   }
 
   async query(options: DataQueryRequest<MyQuery>): Promise<DataQueryResponse> {
-    const promises = options.targets.map(query => {
+    const promises = options.targets.map((query) => {
       query = defaults(query, defaultQuery);
 
-      return this.doRequest(options, query).then(response => {
+      return this.doRequest(options, query).then((response) => {
         let tsValuesCalculated = false;
         const tsValues: any[] = [];
         const fields: any[] = [];
@@ -56,7 +64,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
         data.forEach((row: any, idx: number) => {
           let labels: Labels = {};
           for (let key in row) {
-            if (key === 'metrics') {
+            if (key === "metrics") {
               continue;
             }
 
@@ -70,7 +78,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
             labels: labels,
             values: values,
             config: {
-              displayName: '',
+              displayName: "",
             },
           };
 
@@ -87,37 +95,49 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
         });
 
         fields.push({
-          name: 'Time',
+          name: "Time",
           type: FieldType.time,
           values: tsValues,
         });
 
         return toDataFrame({
-          name: 'dataFrameName',
+          name: "dataFrameName",
           fields: fields,
         });
       });
     });
 
-    return Promise.all(promises).then(data => ({ data }));
+    return Promise.all(promises).then((data) => ({ data }));
   }
 
   async doRequest(options: DataQueryRequest<MyQuery>, query: MyQuery) {
     const { range } = options;
-    const rawResourceIDs: string = getTemplateSrv().replace(query.resources, options.scopedVars, 'csv');
+    const rawResourceIDs: string = getTemplateSrv().replace(
+      query.resources,
+      options.scopedVars,
+      "csv"
+    );
     const resourceIDs: number[] = rawResourceIDs
-      .split(',')
+      .split(",")
       .filter(Boolean)
-      .map(x => +x);
+      .map((x) => +x);
 
-    const rawVhosts: string = getTemplateSrv().replace(query.vhosts, options.scopedVars, 'csv');
-    const vhosts: string[] = rawVhosts.split(',').filter(Boolean);
+    const rawVhosts: string = getTemplateSrv().replace(
+      query.vhosts,
+      options.scopedVars,
+      "csv"
+    );
+    const vhosts: string[] = rawVhosts.split(",").filter(Boolean);
 
-    const rawClients: string = getTemplateSrv().replace(query.clients, options.scopedVars, 'csv');
+    const rawClients: string = getTemplateSrv().replace(
+      query.clients,
+      options.scopedVars,
+      "csv"
+    );
     const clients: number[] = rawClients
-      .split(',')
+      .split(",")
       .filter(Boolean)
-      .map(x => +x);
+      .map((x) => +x);
 
     const data: StatsRequestData = {
       metrics: [query.metric.value],
@@ -146,12 +166,12 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     }
 
     return await getBackendSrv().datasourceRequest({
-      method: 'POST',
-      url: this.url + '/statistics/aggregate/stats',
+      method: "POST",
+      url: this.url + "/statistics/aggregate/stats",
       params: {
-          "service": "CDN"
+        service: "CDN",
       },
-      responseType: 'json',
+      responseType: "json",
       showErrorAlert: true,
       data,
     });
@@ -159,27 +179,27 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
 
   async testDatasource() {
     const resp = await getBackendSrv().datasourceRequest({
-      method: 'GET',
-      url: this.url + '/users/me',
-      responseType: 'json',
+      method: "GET",
+      url: this.url + "/users/me",
+      responseType: "json",
       showErrorAlert: true,
     });
 
     if (resp.status === 200) {
-        return {
-            status: 'success',
-            message: 'You successfully authenticated as ' + resp.data.name,
-        };
+      return {
+        status: "success",
+        message: "You successfully authenticated as " + resp.data.name,
+      };
     }
 
-    let message = "Smth went wrong."
+    let message = "Smth went wrong.";
     if (resp.data && resp.data.message && resp.data.message.detail) {
-        message = resp.data.message.detail;
+      message = resp.data.message.detail;
     }
 
     return {
-        status: 'fail',
-        message: message,
-    }
+      status: "fail",
+      message: message,
+    };
   }
 }

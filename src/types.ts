@@ -1,4 +1,4 @@
-import { DataQuery, DataSourceJsonData, SelectableValue } from '@grafana/data';
+import { DataQuery, DataSourceJsonData, SelectableValue } from "@grafana/data";
 
 export interface MyQuery extends DataQuery {
   metric: SelectableValue<any>;
@@ -10,12 +10,12 @@ export interface MyQuery extends DataQuery {
 }
 
 export const defaultQuery: Partial<MyQuery> = {
-  metric: { value: 'total_bytes', label: 'Total Traffic' },
-  granularity: { value: '1h', label: '1h' },
+  metric: { value: "total_bytes", label: "Total Traffic" },
+  granularity: { value: "1h", label: "1h" },
   grouping: [],
-  vhosts: '',
-  resources: '',
-  clients: '',
+  vhosts: "",
+  resources: "",
+  clients: "",
 };
 
 export interface StatsRequestData {
@@ -49,5 +49,5 @@ export interface MyVariableQuery {
 }
 
 export const defaultVariableQuery: Partial<MyVariableQuery> = {
-  selector: { value: 'cname', label: 'cname' },
+  selector: { value: "cname", label: "cname" },
 };

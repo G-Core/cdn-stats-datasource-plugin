@@ -1,16 +1,19 @@
-import defaults from 'lodash/defaults';
+import defaults from "lodash/defaults";
 
-import React, { useState } from 'react';
-import { Select } from '@grafana/ui';
-import { SelectableValue } from '@grafana/data';
-import { MyVariableQuery, defaultVariableQuery } from './types';
+import React, { useState } from "react";
+import { Select } from "@grafana/ui";
+import { SelectableValue } from "@grafana/data";
+import { MyVariableQuery, defaultVariableQuery } from "./types";
 
 interface VariableQueryProps {
   query: MyVariableQuery;
   onChange: (query: MyVariableQuery, definition: string) => void;
 }
 
-export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, query }) => {
+export const VariableQueryEditor: React.FC<VariableQueryProps> = ({
+  onChange,
+  query,
+}) => {
   query = defaults(query, defaultVariableQuery);
   const [state, setState] = useState(query);
 
@@ -32,14 +35,14 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
           width={16}
           maxVisibleValues={20}
           minMenuHeight={45}
-          menuPlacement={'bottom'}
+          menuPlacement={"bottom"}
           onBlur={saveQuery}
           onChange={handleChange}
           value={state.selector}
           options={[
-            { value: 'id', label: 'resourceID' },
+            { value: "id", label: "resourceID" },
             // { value: 'cname', label: 'cname' },
-            { value: 'client', label: 'client' },
+            { value: "client", label: "client" },
           ]}
         />
       </div>

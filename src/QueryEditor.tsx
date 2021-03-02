@@ -1,14 +1,14 @@
-import defaults from 'lodash/defaults';
+import defaults from "lodash/defaults";
 
 import React, {
   // ChangeEvent,
   ChangeEvent,
   PureComponent,
-} from 'react';
-import { LegacyForms, Select, MultiSelect } from '@grafana/ui';
-import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import { DataSource } from './datasource';
-import { defaultQuery, MyDataSourceOptions, MyQuery } from './types';
+} from "react";
+import { LegacyForms, Select, MultiSelect } from "@grafana/ui";
+import { QueryEditorProps, SelectableValue } from "@grafana/data";
+import { DataSource } from "./datasource";
+import { defaultQuery, MyDataSourceOptions, MyQuery } from "./types";
 
 const { FormField } = LegacyForms;
 
@@ -75,22 +75,31 @@ export class QueryEditor extends PureComponent<Props> {
                   isSearchable
                   maxVisibleValues={20}
                   minMenuHeight={45}
-                  menuPlacement={'bottom'}
+                  menuPlacement={"bottom"}
                   onChange={this.onMetricChange}
                   value={metric}
                   options={[
-                    { value: 'total_bytes', label: 'Total Traffic' },
-                    { value: 'sent_bytes', label: 'Edges Traffic' },
-                    { value: 'shield_bytes', label: 'Shield Traffic' },
-                    { value: 'upstream_bytes', label: 'Origin Traffic' },
-                    { value: 'requests', label: 'Total Requests' },
-                    { value: 'responses_2xx', label: '2xx Responses' },
-                    { value: 'responses_3xx', label: '3xx Responses' },
-                    { value: 'responses_4xx', label: '4xx Responses' },
-                    { value: 'responses_5xx', label: '5xx Responses' },
-                    { value: 'cache_hit_requests_ratio', label: 'Cache Hit Ratio' },
-                    { value: 'cache_hit_traffic_ratio', label: 'Byte Cache Hit Ratio' },
-                    { value: 'shield_traffic_ratio', label: 'Shield Traffic Ratio' },
+                    { value: "total_bytes", label: "Total Traffic" },
+                    { value: "sent_bytes", label: "Edges Traffic" },
+                    { value: "shield_bytes", label: "Shield Traffic" },
+                    { value: "upstream_bytes", label: "Origin Traffic" },
+                    { value: "requests", label: "Total Requests" },
+                    { value: "responses_2xx", label: "2xx Responses" },
+                    { value: "responses_3xx", label: "3xx Responses" },
+                    { value: "responses_4xx", label: "4xx Responses" },
+                    { value: "responses_5xx", label: "5xx Responses" },
+                    {
+                      value: "cache_hit_requests_ratio",
+                      label: "Cache Hit Ratio",
+                    },
+                    {
+                      value: "cache_hit_traffic_ratio",
+                      label: "Byte Cache Hit Ratio",
+                    },
+                    {
+                      value: "shield_traffic_ratio",
+                      label: "Shield Traffic Ratio",
+                    },
                   ]}
                 />
               }
@@ -106,14 +115,14 @@ export class QueryEditor extends PureComponent<Props> {
                   width={20}
                   maxVisibleValues={4}
                   minMenuHeight={25}
-                  menuPlacement={'bottom'}
+                  menuPlacement={"bottom"}
                   onChange={this.onGranularityChange}
                   value={granularity}
                   options={[
-                    { value: '5m', label: '5m' },
-                    { value: '15m', label: '15m' },
-                    { value: '1h', label: '1h' },
-                    { value: '1d', label: '1d' },
+                    { value: "5m", label: "5m" },
+                    { value: "15m", label: "15m" },
+                    { value: "1h", label: "1h" },
+                    { value: "1d", label: "1d" },
                   ]}
                 />
               }
@@ -130,16 +139,16 @@ export class QueryEditor extends PureComponent<Props> {
                   isSearchable
                   maxVisibleValues={20}
                   minMenuHeight={35}
-                  menuPlacement={'bottom'}
+                  menuPlacement={"bottom"}
                   onChange={this.onGroupingChange}
                   value={grouping}
                   options={[
-                    { value: 'client', label: 'Client' },
+                    { value: "client", label: "Client" },
                     // { value: 'vhost', label: 'Vhost' },
-                    { value: 'resource', label: 'Resource' },
-                    { value: 'region', label: 'Region' },
-                    { value: 'country', label: 'Country' },
-                    { value: 'dc', label: 'Datacenter' },
+                    { value: "resource", label: "Resource" },
+                    { value: "region", label: "Region" },
+                    { value: "country", label: "Country" },
+                    { value: "dc", label: "Datacenter" },
                   ]}
                 />
               }
@@ -148,7 +157,9 @@ export class QueryEditor extends PureComponent<Props> {
         </div>
 
         <div className="section gf-form-group">
-          <label className="gf-form-group-label width-20">Filters (comma separated)</label>
+          <label className="gf-form-group-label width-20">
+            Filters (comma separated)
+          </label>
 
           <div className="gf-form">
             <FormField

@@ -10,10 +10,7 @@
       "name": "Ilya Vishneuski",
       "url": "https://gcorelabs.com/"
     },
-    "keywords": [
-      "cdn",
-      "statistics"
-    ],
+    "keywords": ["cdn", "statistics"],
     "logos": {
       "small": "img/logo.svg",
       "large": "img/logo.svg"
@@ -29,7 +26,7 @@
       }
     ],
     "screenshots": [],
-    "version": "0.0.3",
+    "version": "0.0.4",
     "updated": "%TODAY%"
   },
   "dependencies": {
@@ -37,35 +34,35 @@
     "plugins": []
   },
   "routes": [
-      {
-          "path": "statistics/aggregate/stats",
-          "url": "https://api.gcdn.co/statistics/aggregate/stats",
-          "headers": [
-              {
-                  "name": "Authorization",
-                  "content": "{{ .SecureJsonData.apiKey }}"
-              }
-          ]
-      },
-      {
-          "path": "resources",
-          "url": "https://api.gcdn.co/resources",
-          "headers": [
-              {
-                  "name": "Authorization",
-                  "content": "{{ .SecureJsonData.apiKey }}"
-              }
-          ]
-      },
-      {
-          "path": "users/me",
-          "url": "https://api.gcdn.co/users/me",
-          "headers": [
-              {
-                  "name": "Authorization",
-                  "content": "{{ .SecureJsonData.apiKey }}"
-              }
-          ]
-      }
+    {
+      "path": "statistics/aggregate/stats",
+      "url": "https://api.gcdn.co/statistics/aggregate/stats",
+      "headers": [
+        {
+          "name": "Authorization",
+          "content": "{{ .SecureJsonData.apiKey }}"
+        }
+      ]
+    },
+    {
+      "path": "resources",
+      "url": "https://api.gcdn.co/resources",
+      "headers": [
+        {
+          "name": "Authorization",
+          "content": "{{ .SecureJsonData.apiKey }}"
+        }
+      ]
+    },
+    {
+      "path": "users/me",
+      "url": "https://api.gcdn.co/users/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "content": "{{ .SecureJsonData.apiKey }}"
+        }
+      ]
+    }
   ]
 }
