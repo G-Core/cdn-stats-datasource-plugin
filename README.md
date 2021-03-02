@@ -1,4 +1,4 @@
-# Grafana Data Source Plugin Template
+# Grafana Data Source Plugin for Gcore CDN metrics
 
 [![Build](https://github.com/G-Core/cdn-stats-datasource-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/G-Core/cdn-stats-datasource-plugin/actions/workflows/ci.yml)
 
