@@ -12,7 +12,7 @@ interface VariableQueryProps {
 
 export const VariableQueryEditor: React.FC<VariableQueryProps> = ({
   onChange,
-  query,
+  query
 }) => {
   query = defaults(query, defaultVariableQuery);
   const [state, setState] = useState(query);
@@ -24,7 +24,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({
   const handleChange = (selector: SelectableValue<string>) =>
     setState({
       ...state,
-      selector,
+      selector
     });
 
   return (
@@ -42,7 +42,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({
           options={[
             { value: "id", label: "resourceID" },
             // { value: 'cname', label: 'cname' },
-            { value: "client", label: "client" },
+            { value: "client", label: "client" }
           ]}
         />
       </div>

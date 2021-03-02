@@ -15,7 +15,7 @@ export const defaultQuery: Partial<MyQuery> = {
   grouping: [],
   vhosts: "",
   resources: "",
-  clients: "",
+  clients: ""
 };
 
 export interface StatsRequestData {
@@ -49,5 +49,5 @@ export interface MyVariableQuery {
 }
 
 export const defaultVariableQuery: Partial<MyVariableQuery> = {
-  selector: { value: "cname", label: "cname" },
+  selector: { value: "cname", label: "cname" }
 };

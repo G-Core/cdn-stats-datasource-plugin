@@ -3,7 +3,7 @@ import defaults from "lodash/defaults";
 import React, {
   // ChangeEvent,
   ChangeEvent,
-  PureComponent,
+  PureComponent
 } from "react";
 import { LegacyForms, Select, MultiSelect } from "@grafana/ui";
 import { QueryEditorProps, SelectableValue } from "@grafana/data";
@@ -90,16 +90,16 @@ export class QueryEditor extends PureComponent<Props> {
                     { value: "responses_5xx", label: "5xx Responses" },
                     {
                       value: "cache_hit_requests_ratio",
-                      label: "Cache Hit Ratio",
+                      label: "Cache Hit Ratio"
                     },
                     {
                       value: "cache_hit_traffic_ratio",
-                      label: "Byte Cache Hit Ratio",
+                      label: "Byte Cache Hit Ratio"
                     },
                     {
                       value: "shield_traffic_ratio",
-                      label: "Shield Traffic Ratio",
-                    },
+                      label: "Shield Traffic Ratio"
+                    }
                   ]}
                 />
               }
@@ -122,7 +122,7 @@ export class QueryEditor extends PureComponent<Props> {
                     { value: "5m", label: "5m" },
                     { value: "15m", label: "15m" },
                     { value: "1h", label: "1h" },
-                    { value: "1d", label: "1d" },
+                    { value: "1d", label: "1d" }
                   ]}
                 />
               }
@@ -148,7 +148,7 @@ export class QueryEditor extends PureComponent<Props> {
                     { value: "resource", label: "Resource" },
                     { value: "region", label: "Region" },
                     { value: "country", label: "Country" },
-                    { value: "dc", label: "Datacenter" },
+                    { value: "dc", label: "Datacenter" }
                   ]}
                 />
               }

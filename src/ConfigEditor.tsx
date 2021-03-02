@@ -17,8 +17,8 @@ export class ConfigEditor extends PureComponent<Props, State> {
     onOptionsChange({
       ...options,
       secureJsonData: {
-        apiKey: event.target.value,
-      },
+        apiKey: event.target.value
+      }
     });
   };
 
@@ -28,12 +28,12 @@ export class ConfigEditor extends PureComponent<Props, State> {
       ...options,
       secureJsonFields: {
         ...options.secureJsonFields,
-        apiKey: false,
+        apiKey: false
       },
       secureJsonData: {
         ...options.secureJsonData,
-        apiKey: "",
-      },
+        apiKey: ""
+      }
     });
   };
 

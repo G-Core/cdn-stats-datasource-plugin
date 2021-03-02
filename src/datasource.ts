@@ -9,7 +9,7 @@ import {
   FieldType,
   Labels,
   // MutableField,
-  toDataFrame,
+  toDataFrame
 } from "@grafana/data";
 
 import { getBackendSrv, getTemplateSrv } from "@grafana/runtime";
@@ -19,7 +19,7 @@ import {
   MyDataSourceOptions,
   MyVariableQuery,
   StatsRequestData,
-  defaultQuery,
+  defaultQuery
 } from "./types";
 
 export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
@@ -43,7 +43,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
       url: this.url + "/resources",
       responseType: "json",
       showErrorAlert: true,
-      params: { fields: "id,cname,client", status: "active" },
+      params: { fields: "id,cname,client", status: "active" }
     });
 
     return response.data
@@ -52,10 +52,10 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
   }
 
   async query(options: DataQueryRequest<MyQuery>): Promise<DataQueryResponse> {
-    const promises = options.targets.map((query) => {
+    const promises = options.targets.map(query => {
       query = defaults(query, defaultQuery);
 
-      return this.doRequest(options, query).then((response) => {
+      return this.doRequest(options, query).then(response => {
         let tsValuesCalculated = false;
         const tsValues: any[] = [];
         const fields: any[] = [];
@@ -78,8 +78,8 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
             labels: labels,
             values: values,
             config: {
-              displayName: "",
-            },
+              displayName: ""
+            }
           };
 
           row.metrics[query.metric.value].forEach((point: any) => {
@@ -97,17 +97,17 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
         fields.push({
           name: "Time",
           type: FieldType.time,
-          values: tsValues,
+          values: tsValues
         });
 
         return toDataFrame({
           name: "dataFrameName",
-          fields: fields,
+          fields: fields
         });
       });
     });
 
-    return Promise.all(promises).then((data) => ({ data }));
+    return Promise.all(promises).then(data => ({ data }));
   }
 
   async doRequest(options: DataQueryRequest<MyQuery>, query: MyQuery) {
@@ -120,7 +120,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     const resourceIDs: number[] = rawResourceIDs
       .split(",")
       .filter(Boolean)
-      .map((x) => +x);
+      .map(x => +x);
 
     const rawVhosts: string = getTemplateSrv().replace(
       query.vhosts,
@@ -137,14 +137,14 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     const clients: number[] = rawClients
       .split(",")
       .filter(Boolean)
-      .map((x) => +x);
+      .map(x => +x);
 
     const data: StatsRequestData = {
       metrics: [query.metric.value],
       from: dateTimeFormatISO(range!.from.valueOf()),
       to: dateTimeFormatISO(range!.to.valueOf()),
       granularity: query.granularity.value,
-      flat: true,
+      flat: true
     };
 
     if (resourceIDs && resourceIDs.length > 0) {
@@ -169,11 +169,11 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
       method: "POST",
       url: this.url + "/statistics/aggregate/stats",
       params: {
-        service: "CDN",
+        service: "CDN"
       },
       responseType: "json",
       showErrorAlert: true,
-      data,
+      data
     });
   }
 
@@ -182,13 +182,13 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
       method: "GET",
       url: this.url + "/users/me",
       responseType: "json",
-      showErrorAlert: true,
+      showErrorAlert: true
     });
 
     if (resp.status === 200) {
       return {
         status: "success",
-        message: "You successfully authenticated as " + resp.data.name,
+        message: "You successfully authenticated as " + resp.data.name
       };
     }
 
@@ -199,7 +199,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
 
     return {
       status: "fail",
-      message: message,
+      message: message
     };
   }
 }
