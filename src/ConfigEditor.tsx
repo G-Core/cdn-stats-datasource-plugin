@@ -49,8 +49,9 @@ export class ConfigEditor extends PureComponent<Props, State> {
               isConfigured={(secureJsonFields && secureJsonFields.apiKey) as boolean}
               value={secureJsonData.apiKey || ''}
               label="Auth header"
+              tooltip="Auth header value e.g. Bearer XXX"
               placeholder="secure field (backend only)"
-              labelWidth={6}
+              labelWidth={8}
               inputWidth={20}
               onReset={this.onResetAPIKey}
               onChange={this.onAPIKeyChange}

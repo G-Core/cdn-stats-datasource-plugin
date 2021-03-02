@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
   "name": "cdn-stats",
-  "id": "gcore-cdn-stats",
+  "id": "gcore-cdn-stats-datasource",
   "metrics": true,
   "info": {
     "description": "",
@@ -29,7 +29,7 @@
       }
     ],
     "screenshots": [],
-    "version": "0.0.2",
+    "version": "0.0.3",
     "updated": "%TODAY%"
   },
   "dependencies": {
@@ -40,12 +40,6 @@
       {
           "path": "statistics/aggregate/stats",
           "url": "https://api.gcdn.co/statistics/aggregate/stats",
-          "urlParams": [
-              {
-                  "name": "service",
-                  "content": "CDN"
-              }
-          ],
           "headers": [
               {
                   "name": "Authorization",
@@ -56,6 +50,16 @@
       {
           "path": "resources",
           "url": "https://api.gcdn.co/resources",
+          "headers": [
+              {
+                  "name": "Authorization",
+                  "content": "{{ .SecureJsonData.apiKey }}"
+              }
+          ]
+      },
+      {
+          "path": "users/me",
+          "url": "https://api.gcdn.co/users/me",
           "headers": [
               {
                   "name": "Authorization",

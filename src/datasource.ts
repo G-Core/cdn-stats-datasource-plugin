@@ -148,6 +148,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     return await getBackendSrv().datasourceRequest({
       method: 'POST',
       url: this.url + '/statistics/aggregate/stats',
+      params: {"service": "CDN"},
       responseType: 'json',
       showErrorAlert: true,
       data,
@@ -155,10 +156,28 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
   }
 
   async testDatasource() {
-    // Implement a health check for your data source.
+    const resp = await getBackendSrv().datasourceRequest({
+      method: 'GET',
+      url: this.url + '/users/me',
+      responseType: 'json',
+      showErrorAlert: true,
+    });
+
+    if (resp.status === 200) {
+        return {
+            status: 'success',
+            message: 'You successfully authenticated as ' + resp.data.name,
+        };
+    }
+
+    let message = "Smth went wrong."
+    if (resp.data && resp.data.message && resp.data.message.detail) {
+        message = resp.data.message.detail;
+    }
+
     return {
-      status: 'success',
-      message: 'Success',
-    };
+        status: 'fail',
+        message: message,
+    }
   }
 }
