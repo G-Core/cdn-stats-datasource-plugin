@@ -1,0 +1,67 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "datasource",
+  "name": "cdn-stats",
+  "id": "gcore-cdn-stats",
+  "metrics": true,
+  "info": {
+    "description": "",
+    "author": {
+      "name": "Ilya Vishneuski",
+      "url": "https://gcorelabs.com/"
+    },
+    "keywords": [
+      "cdn",
+      "statistics"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/grafana-starter-datasource"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/grafana-starter-datasource/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=7.0.0",
+    "plugins": []
+  },
+  "routes": [
+      {
+          "path": "statistics/aggregate/stats",
+          "url": "https://api.gcdn.co/statistics/aggregate/stats",
+          "urlParams": [
+              {
+                  "name": "service",
+                  "content": "CDN"
+              }
+          ],
+          "headers": [
+              {
+                  "name": "Authorization",
+                  "content": "Bearer {{ .SecureJsonData.apiKey }}"
+              }
+          ]
+      },
+      {
+          "path": "resources",
+          "url": "https://api.gcdn.co/resources",
+          "headers": [
+              {
+                  "name": "Authorization",
+                  "content": "Bearer {{ .SecureJsonData.apiKey }}"
+              }
+          ]
+      }
+  ]
+}
