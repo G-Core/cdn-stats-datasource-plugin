@@ -1,12 +1,14 @@
 # Grafana Data Source Plugin Template
 
-[![Build](https://github.com/grafana/grafana-starter-datasource/workflows/CI/badge.svg)](https://github.com/grafana/grafana-starter-datasource/actions?query=workflow%3A%22CI%22)
+[![Build](https://github.com/G-Core/cdn-stats-datasource-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/G-Core/cdn-stats-datasource-plugin/actions/workflows/ci.yml)
 
-This template is a starting point for building Grafana Data Source Plugins
+This is a Grafana datasource plugin for Gcore cdn statistics.
 
 ## What is Grafana Data Source Plugin?
 
 Grafana supports a wide range of data sources, including Prometheus, MySQL, and even Datadog. There’s a good chance you can already visualize metrics from the systems you have set up. In some cases, though, you already have an in-house metrics solution that you’d like to add to your Grafana dashboards. Grafana Data Source Plugins enables integrating such solutions with Grafana.
+
+In our case this datasource plagin is backed by Gcore cdn statistics API.
 
 ## Getting started
 
