@@ -29,7 +29,7 @@
       }
     ],
     "screenshots": [],
-    "version": "%VERSION%",
+    "version": "0.0.2",
     "updated": "%TODAY%"
   },
   "dependencies": {
