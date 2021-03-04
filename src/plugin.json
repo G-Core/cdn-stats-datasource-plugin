@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
   "name": "cdn-stats",
-  "id": "gcore-cdn-stats-datasource",
+  "id": "gcorelabs-cdn-stats-datasource",
   "metrics": true,
   "info": {
     "description": "",
