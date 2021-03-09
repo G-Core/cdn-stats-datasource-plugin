@@ -10,7 +10,13 @@ Grafana supports a wide range of data sources, including Prometheus, MySQL, and 
 
 In our case this datasource plagin is backed by Gcore cdn statistics API.
 
-## Getting started
+## Samples
+
+### Total bytes by resources
+
+![total_bytes_by_resources](https://github.com/G-Core/cdn-stats-datasource-plugin/blob/master/screenshots/total_bytes_by_resources.png?raw=true)
+
+## Getting started (dev)
 
 1. Install dependencies
 
