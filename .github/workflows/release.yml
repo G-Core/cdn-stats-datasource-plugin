@@ -17,11 +17,6 @@ jobs:
         with:
           node-version: "14.x"
 
-      - name: Setup Go environment
-        uses: actions/setup-go@v2
-        with:
-          go-version: "1.15"
-
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -52,28 +47,6 @@ jobs:
 
       - name: Build and test frontend
         run: yarn build
-
-      - name: Check for backend
-        id: check-for-backend
-        run: |
-          if [ -f "Magefile.go" ]
-          then
-            echo "::set-output name=has-backend::true"
-          fi
-
-      - name: Test backend
-        if: steps.check-for-backend.outputs.has-backend == 'true'
-        uses: magefile/mage-action@v1
-        with:
-          version: latest
-          args: coverage
-
-      - name: Build backend
-        if: steps.check-for-backend.outputs.has-backend == 'true'
-        uses: magefile/mage-action@v1
-        with:
-          version: latest
-          args: buildAll
 
 # - name: Sign plugin
 # run: yarn sign
