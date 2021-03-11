@@ -49,5 +49,5 @@ export interface MyVariableQuery {
 }
 
 export const defaultVariableQuery: Partial<MyVariableQuery> = {
-  selector: { value: "cname", label: "cname" }
+  selector: { value: "id", label: "resourceID" }
 };
