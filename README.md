@@ -8,7 +8,7 @@ This is a Grafana datasource plugin for G-Core Labs statistics.
 
 Grafana supports a wide range of data sources, including Prometheus, MySQL, and even Datadog. There’s a good chance you can already visualize metrics from the systems you have set up.
 
-In our case this datasource plagin is backed by gcore CDN statistics API.
+In our case this datasource plugin is backed by Gcore CDN statistics API.
 
 ## Key Features
 
