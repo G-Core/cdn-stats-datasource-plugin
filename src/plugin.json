@@ -26,9 +26,7 @@
         "url": "https://github.com/G-Core/cdn-stats-datasource-plugin/blob/master/LICENSE"
       }
     ],
-    "screenshots": [
-        "https://github.com/G-Core/cdn-stats-datasource-plugin/blob/master/screenshots/total_bytes_by_resources.png?raw=true"
-    ],
+    "screenshots": [],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },
