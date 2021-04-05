@@ -13,6 +13,7 @@ import { getTemplateSrv } from "@grafana/runtime";
 import { GCPoint, GCQuery, GCUnit } from "./types";
 import { ScopedVars } from "@grafana/data/types/ScopedVars";
 import { MetricFindValue } from "@grafana/data/types/datasource";
+import { TimeInSeconds } from "./times";
 
 export const renderTemplate = (
   aliasPattern: string,
@@ -55,7 +56,7 @@ export const getTimeField = (data: GCPoint[], isMs = false): MutableField => ({
   type: FieldType.time,
   config: {},
   values: new ArrayVector<number>(
-    data.map((val) => (isMs ? val[0] : val[0] * 1000))
+    data.map((val) => (isMs ? val[0] : val[0] * TimeInSeconds.MILLISECOND))
   ),
 });
 

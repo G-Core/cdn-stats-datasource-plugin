@@ -97,6 +97,6 @@ export const getUnitByMetric = (metric: GCMetric): GCUnit =>
 export const createGetter = (metric: GCMetric) => (
   data: Partial<Record<GCServerMetric, GCPoint[]>>
 ) => {
-  const serverMetric = getOriginalMetric(metric);
-  return data[serverMetric];
+  const originalMetric = getOriginalMetric(metric);
+  return data[originalMetric];
 };

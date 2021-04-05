@@ -233,7 +233,7 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
 
       return {
         status: "success",
-        message: "You successfully authenticated as " + resp.data.name,
+        message: `You successfully authenticated as ${resp.data.name}`,
       };
     } catch (e) {
       let message = e.statusText;

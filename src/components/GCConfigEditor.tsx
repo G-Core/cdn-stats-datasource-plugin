@@ -2,22 +2,40 @@ import React, { ChangeEvent, PureComponent } from "react";
 import { InfoBox, LegacyForms, Legend } from "@grafana/ui";
 import { DataSourcePluginOptionsEditorProps } from "@grafana/data";
 import { GCDataSourceOptions, GCSecureJsonData } from "../types";
+import { getAuthorizationValue } from "../token";
 
 const { SecretFormField } = LegacyForms;
 
 interface Props
   extends DataSourcePluginOptionsEditorProps<GCDataSourceOptions> {}
 
-interface State {}
+interface State {
+  apiKey: string;
+}
 
 export class GCConfigEditor extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    const secureJsonData = (props.options.secureJsonData ||
+      {}) as GCSecureJsonData;
+
+    this.state = {
+      apiKey: secureJsonData.apiKey || "",
+    };
+  }
+
   onAPIKeyChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      apiKey: event.target.value,
+    });
+  };
+
+  updateAPIKey = () => {
     const { onOptionsChange, options } = this.props;
+    const apiKey = getAuthorizationValue(this.state.apiKey.trim());
     onOptionsChange({
       ...options,
-      secureJsonData: {
-        apiKey: event.target.value,
-      },
+      secureJsonData: { apiKey },
     });
   };
 
@@ -38,8 +56,8 @@ export class GCConfigEditor extends PureComponent<Props, State> {
 
   render() {
     const { options } = this.props;
+    const { apiKey } = this.state;
     const { secureJsonFields } = options;
-    const secureJsonData = (options.secureJsonData || {}) as GCSecureJsonData;
 
     return (
       <>
@@ -47,12 +65,13 @@ export class GCConfigEditor extends PureComponent<Props, State> {
         <div className="gf-form-group">
           <SecretFormField
             isConfigured={secureJsonFields && secureJsonFields.apiKey}
-            value={secureJsonData.apiKey || ""}
+            value={apiKey}
             label="API token"
             placeholder="secure field"
             labelWidth={8}
             inputWidth={20}
             onReset={this.onResetAPIKey}
+            onBlur={this.updateAPIKey}
             onChange={this.onAPIKeyChange}
           />
         </div>
