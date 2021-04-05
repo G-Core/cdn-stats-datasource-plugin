@@ -1,205 +1,251 @@
-import defaults from "lodash/defaults";
-
+import { defaults, omit } from "lodash";
 import {
+  DataFrame,
   DataQueryRequest,
-  dateTimeFormatISO,
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
-  FieldType,
+  dateTimeFormatISO,
+  Field,
   Labels,
-  // MutableField,
-  toDataFrame
+  LoadingState,
+  toDataFrame,
 } from "@grafana/data";
-
-import { getBackendSrv, getTemplateSrv } from "@grafana/runtime";
-
+import { FetchResponse, getBackendSrv } from "@grafana/runtime";
 import {
-  MyQuery,
-  MyDataSourceOptions,
-  MyVariableQuery,
-  StatsRequestData,
-  defaultQuery
+  GCCdnResource,
+  GCDataSourceOptions,
+  GCGrouping,
+  GCQuery,
+  GCResponseStats,
+  GCStatsRequestData,
+  GCVariable,
+  GCVariableQuery,
 } from "./types";
+import {
+  createGetter,
+  getLabelByMetric,
+  getOriginalMetric,
+  getUnitByMetric,
+} from "metric";
+import {
+  createLabelInfo,
+  getEmptyDataFrame,
+  getTimeField,
+  getValueField,
+  getValueVariable,
+  takeNumbers,
+  takeStrings,
+} from "./utils";
+import { createTransform } from "./transform";
+import { defaultQuery } from "./defaults";
+import { MetricFindValue } from "@grafana/data/types/datasource";
+import { regions } from "./regions";
+import { countries } from "countries";
 
-export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
+export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
   url?: string;
 
   constructor(
-    instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>
+    instanceSettings: DataSourceInstanceSettings<GCDataSourceOptions>
   ) {
     super(instanceSettings);
-
     this.url = instanceSettings.url;
   }
 
-  async metricFindQuery(query: MyVariableQuery, options?: any) {
+  async metricFindQuery(
+    query: GCVariableQuery,
+    options?: any
+  ): Promise<MetricFindValue[]> {
     if (!query.selector) {
       return [];
     }
 
-    const response = await getBackendSrv().datasourceRequest({
-      method: "GET",
-      url: this.url + "/resources",
-      responseType: "json",
-      showErrorAlert: true,
-      params: { fields: "id,cname,client", status: "active" }
-    });
+    const selector = query.selector.value!;
 
-    return response.data
-      .map((frame: any) => ({ text: frame[query.selector.value || ""] }))
-      .filter((v: any, i: any, a: any) => a.indexOf(v) === i);
-  }
-
-  async query(options: DataQueryRequest<MyQuery>): Promise<DataQueryResponse> {
-    const promises = options.targets.map(query => {
-      query = defaults(query, defaultQuery);
-
-      return this.doRequest(options, query).then(response => {
-        let tsValuesCalculated = false;
-        const tsValues: any[] = [];
-        const fields: any[] = [];
-
-        const data = response.data || [];
-        data.forEach((row: any, idx: number) => {
-          let labels: Labels = {};
-          for (let key in row) {
-            if (key === "metrics") {
-              continue;
-            }
-
-            labels[key] = row[key];
-          }
-
-          let values: any[] = [];
-          let field = {
-            name: query.metric.value,
-            type: FieldType.number,
-            labels: labels,
-            values: values,
-            config: {
-              displayName: ""
-            }
-          };
-
-          row.metrics[query.metric.value].forEach((point: any) => {
-            if (!tsValuesCalculated) {
-              tsValues.push(point[0] * 1000);
-            }
-
-            field.values.push(point[1]);
-          });
-
-          fields.push(field);
-          tsValuesCalculated = true;
-        });
-
-        fields.push({
-          name: "Time",
-          type: FieldType.time,
-          values: tsValues
-        });
-
-        return toDataFrame({
-          name: "dataFrameName",
-          fields: fields
-        });
+    if (
+      selector === GCVariable.Client ||
+      selector === GCVariable.Resource ||
+      selector === GCVariable.Vhost
+    ) {
+      const {
+        data,
+      }: {
+        data: GCCdnResource[];
+      } = await getBackendSrv().datasourceRequest({
+        method: "GET",
+        url: `${this.url}/resources`,
+        responseType: "json",
+        showErrorAlert: true,
+        params: { fields: "id,cname,client", status: "active" },
       });
-    });
 
-    return Promise.all(promises).then(data => ({ data }));
-  }
-
-  async doRequest(options: DataQueryRequest<MyQuery>, query: MyQuery) {
-    const { range } = options;
-    const rawResourceIDs: string = getTemplateSrv().replace(
-      query.resources,
-      options.scopedVars,
-      "csv"
-    );
-    const resourceIDs: number[] = rawResourceIDs
-      .split(",")
-      .filter(Boolean)
-      .map(x => +x);
-
-    const rawVhosts: string = getTemplateSrv().replace(
-      query.vhosts,
-      options.scopedVars,
-      "csv"
-    );
-    const vhosts: string[] = rawVhosts.split(",").filter(Boolean);
-
-    const rawClients: string = getTemplateSrv().replace(
-      query.clients,
-      options.scopedVars,
-      "csv"
-    );
-    const clients: number[] = rawClients
-      .split(",")
-      .filter(Boolean)
-      .map(x => +x);
-
-    const data: StatsRequestData = {
-      metrics: [query.metric.value],
-      from: dateTimeFormatISO(range!.from.valueOf()),
-      to: dateTimeFormatISO(range!.to.valueOf()),
-      granularity: query.granularity.value,
-      flat: true
-    };
-
-    if (resourceIDs && resourceIDs.length > 0) {
-      data.resources = resourceIDs;
+      switch (selector) {
+        case GCVariable.Vhost:
+          return getValueVariable(data.map((item) => item.cname));
+        case GCVariable.Resource:
+          return getValueVariable(data.map((item) => item.id));
+        case GCVariable.Client:
+          return getValueVariable(data.map((item) => item.client));
+      }
+    } else if (selector === GCVariable.Region) {
+      return getValueVariable(regions);
+    } else if (selector === GCVariable.Country) {
+      return getValueVariable(countries);
     }
 
-    if (vhosts && vhosts.length > 0) {
+    return [];
+  }
+
+  prepareTargets(targets: GCQuery[]): GCQuery[] {
+    return targets.map((query) => defaults(query, defaultQuery));
+  }
+
+  async transform(
+    data: GCResponseStats[],
+    options: DataQueryRequest<GCQuery>,
+    query: GCQuery
+  ): Promise<DataFrame> {
+    if (data.length === 0) {
+      return getEmptyDataFrame();
+    }
+
+    const fields: Field[] = [];
+    const metric = query.metric.value!;
+    const getter = createGetter(metric);
+    const unit = getUnitByMetric(metric);
+    const label = getLabelByMetric(metric);
+    const transform = createTransform(options, query);
+    const firstPoints = getter(data[0].metrics)!;
+
+    fields.push(getTimeField(firstPoints));
+
+    for (const row of data) {
+      const rawLabels: Labels = {
+        ...(omit(row, "metrics") as Labels),
+        metric: label,
+      };
+
+      const metricsData = getter(row.metrics)!;
+      const { name, labels } = createLabelInfo(
+        rawLabels,
+        query,
+        options.scopedVars
+      );
+      const valueField = getValueField({
+        unit,
+        labels,
+        transform,
+        data: metricsData,
+        displayNameFromDS: name,
+      });
+      fields.push(valueField);
+    }
+
+    return toDataFrame({ fields, refId: query.refId });
+  }
+
+  async query(options: DataQueryRequest<GCQuery>): Promise<DataQueryResponse> {
+    const promises = this.prepareTargets(options.targets).map(async (query) => {
+      const response = await this.doRequest(options, query);
+      const data = response.data || [];
+      return this.transform(data, options, query);
+    });
+
+    return {
+      data: await Promise.all(promises),
+      key: options.requestId,
+      state: LoadingState.Done,
+    };
+  }
+
+  async doRequest(
+    options: DataQueryRequest<GCQuery>,
+    query: GCQuery
+  ): Promise<FetchResponse<GCResponseStats[]>> {
+    const { range } = options;
+
+    const metric = getOriginalMetric(query.metric.value!);
+
+    const vhosts = takeStrings(query.vhosts, options.scopedVars, "csv");
+    const clients = takeNumbers(query.clients, options.scopedVars, "csv");
+    const regions = takeStrings(query.regions, options.scopedVars, "csv");
+    const resources = takeNumbers(query.resources, options.scopedVars, "csv");
+    const countries = takeStrings(query.countries, options.scopedVars, "csv");
+
+    const data: GCStatsRequestData = {
+      metrics: [metric],
+      from: dateTimeFormatISO(range!.from.valueOf()),
+      to: dateTimeFormatISO(range!.to.valueOf()),
+      granularity: query.granularity.value!,
+      flat: true,
+    };
+
+    if (resources.length > 0) {
+      data.resources = resources;
+    }
+
+    if (vhosts.length > 0) {
       data.vhosts = vhosts;
     }
 
-    if (clients && clients.length > 0) {
+    if (clients.length > 0) {
       data.clients = clients;
     }
 
-    if (query.grouping && query.grouping.length > 0) {
-      let groupings: string[] = [];
-      query.grouping.forEach((g: any) => groupings.push(g.value));
-      data.group_by = groupings;
+    if (regions.length > 0) {
+      data.regions = regions;
     }
 
-    return await getBackendSrv().datasourceRequest({
+    if (countries.length > 0) {
+      data.countries = countries;
+    }
+
+    if (query.grouping && query.grouping.length > 0) {
+      data.group_by = query.grouping.reduce(
+        (acc, item) => [...acc, item.value!],
+        [] as GCGrouping[]
+      );
+    }
+
+    // TODO: Use the fetch function instead datasourceRequest
+    return getBackendSrv().datasourceRequest({
       method: "POST",
-      url: this.url + "/statistics/aggregate/stats",
+      url: `${this.url}/statistics/aggregate/stats`,
       params: {
-        service: "CDN"
+        service: "CDN",
       },
       responseType: "json",
       showErrorAlert: true,
-      data
+      data,
     });
   }
 
-  async testDatasource() {
-    const resp = await getBackendSrv().datasourceRequest({
-      method: "GET",
-      url: this.url + "/users/me",
-      responseType: "json",
-      showErrorAlert: true
-    });
+  async testDatasource(): Promise<any> {
+    try {
+      // TODO: Use the fetch function instead datasourceRequest
+      const resp = await getBackendSrv().datasourceRequest({
+        method: "GET",
+        url: `${this.url}/users/me`,
+        responseType: "json",
+        showErrorAlert: true,
+      });
 
-    if (resp.status === 200) {
       return {
         status: "success",
-        message: "You successfully authenticated as " + resp.data.name
+        message: `You successfully authenticated as ${resp.data.name}`,
+      };
+    } catch (e) {
+      let message = e.statusText;
+
+      if (e.data && e.data.message) {
+        message = e.data.message;
+      }
+
+      return {
+        status: e.status,
+        message: message,
       };
     }
-
-    let message = "Smth went wrong.";
-    if (resp.data && resp.data.message && resp.data.message.detail) {
-      message = resp.data.message.detail;
-    }
-
-    return {
-      status: "fail",
-      message: message
-    };
   }
 }
