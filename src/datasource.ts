@@ -203,6 +203,7 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
 
     if (query.grouping && query.grouping.length > 0) {
       data.group_by = query.grouping.reduce(
+        // @ts-ignore
         (acc, item) => [...acc, item.value!],
         [] as GCGrouping[]
       );
