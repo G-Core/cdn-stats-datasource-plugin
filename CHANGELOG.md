@@ -1,10 +1,7 @@
 # Changelog
 
-## 1.0.2
+## 1.0.3
 
-Initial release.
-
-- Visualizing data from cdn stats api
-- Support for multiple methods of authentications (JWT & permanent tokens)
-- Support for groupings and filtering data by resource & clients ids
-
+- Support for groupings and filtering data by vhosts, regions, countries, datacenters ids
+- Support for permanent token authentication
+- Add text formatting for legend key values
