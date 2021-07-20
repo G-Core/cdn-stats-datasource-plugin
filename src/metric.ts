@@ -13,6 +13,10 @@ export interface GCReportsConfig {
   unit: GCUnit;
 }
 
+export type GCGetterFn<T> = (
+  data: Partial<Record<GCServerMetric, GCPoint[]>>
+) => T;
+
 const config: Record<GCMetric, GCReportsConfig> = {
   [GCClientMetric.Bandwidth]: {
     originalMetric: GCServerMetric.TotalBytes,
@@ -94,9 +98,22 @@ export const getLabelByMetric = (metric: GCMetric): string =>
   config[metric].label;
 export const getUnitByMetric = (metric: GCMetric): GCUnit =>
   config[metric].unit;
-export const createGetter = (metric: GCMetric) => (
+export const createGetterSample = (metric: GCMetric): GCGetterFn<GCPoint[]> => (
   data: Partial<Record<GCServerMetric, GCPoint[]>>
-) => {
+): GCPoint[] => {
   const originalMetric = getOriginalMetric(metric);
-  return data[originalMetric];
+  if (data[originalMetric]) {
+    return data[originalMetric] || [];
+  }
+  return [];
+};
+export const createGetterYValues = (metric: GCMetric): GCGetterFn<number[]> => (
+  data: Partial<Record<GCServerMetric, GCPoint[]>>
+): number[] => {
+  const originalMetric = getOriginalMetric(metric);
+  if (data[originalMetric]) {
+    const points = data[originalMetric] || [];
+    return points.map((p) => p[1]);
+  }
+  return [];
 };

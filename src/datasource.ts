@@ -23,10 +23,9 @@ import {
   GCVariableQuery,
 } from "./types";
 import {
-  createGetter,
+  createGetterSample,
   getLabelByMetric,
   getOriginalMetric,
-  getUnitByMetric,
 } from "metric";
 import {
   createLabelInfo,
@@ -37,11 +36,11 @@ import {
   takeNumbers,
   takeStrings,
 } from "./utils";
-import { createTransform } from "./transform";
 import { defaultQuery } from "./defaults";
 import { MetricFindValue } from "@grafana/data/types/datasource";
 import { regions } from "./regions";
 import { countries } from "countries";
+import { getUnit } from "./unit";
 
 export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
   url?: string;
@@ -77,7 +76,7 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
         url: `${this.url}/resources`,
         responseType: "json",
         showErrorAlert: true,
-        params: { fields: "id,cname,client", status: "active" },
+        params: { fields: "id,cname,client", deleted: true },
       });
 
       switch (selector) {
@@ -112,13 +111,12 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
 
     const fields: Field[] = [];
     const metric = query.metric.value!;
-    const getter = createGetter(metric);
-    const unit = getUnitByMetric(metric);
+    const getter = createGetterSample(metric);
     const label = getLabelByMetric(metric);
-    const transform = createTransform(options, query);
-    const firstPoints = getter(data[0].metrics)!;
+    const sample = getter(data[0].metrics);
+    const [unit, transform] = getUnit(query, data);
 
-    fields.push(getTimeField(firstPoints));
+    fields.push(getTimeField(sample));
 
     for (const row of data) {
       const rawLabels: Labels = {
@@ -136,6 +134,7 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
         unit,
         labels,
         transform,
+        decimals: 2,
         data: metricsData,
         displayNameFromDS: name,
       });

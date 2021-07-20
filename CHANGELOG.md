@@ -1,8 +1,6 @@
 # Changelog
 
-## 1.0.4
+## 1.0.5
 
-- Support for groupings and filtering data by vhosts, regions, countries, datacenters ids
-- Support for permanent token authentication
-- Add text formatting for legend key values
-- Add tests
+- Support deleted cdn resource
+- Support automatic chosen scale value for the bandwidth metric

@@ -10,7 +10,7 @@ import {
   toDataFrame,
 } from "@grafana/data";
 import { getTemplateSrv } from "@grafana/runtime";
-import { GCPoint, GCQuery, GCUnit } from "./types";
+import { GCPoint, GCQuery } from "./types";
 import { ScopedVars } from "@grafana/data/types/ScopedVars";
 import { MetricFindValue } from "@grafana/data/types/datasource";
 import { TimeInSeconds } from "./times";
@@ -72,7 +72,7 @@ type ValueFieldOptions = {
   valueName?: string;
   parseValue?: boolean;
   labels?: Labels;
-  unit?: GCUnit;
+  unit?: string;
   decimals?: number;
   displayNameFromDS?: string;
   transform?: (value: number) => number;

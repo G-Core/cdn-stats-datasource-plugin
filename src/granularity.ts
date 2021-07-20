@@ -16,8 +16,14 @@ const config: Record<GCGranularity, GCGranularityConfig> = {
     label: "15m",
     seconds: 15 * TimeInSeconds.MINUTE,
   },
-  [GCGranularity.OneHour]: { label: "1h", seconds: TimeInSeconds.HOUR },
-  [GCGranularity.OneDay]: { label: "1d", seconds: TimeInSeconds.DAY },
+  [GCGranularity.OneHour]: {
+    label: "1h",
+    seconds: TimeInSeconds.HOUR,
+  },
+  [GCGranularity.OneDay]: {
+    label: "1d",
+    seconds: TimeInSeconds.DAY,
+  },
 };
 
 export const createOptions = () =>
