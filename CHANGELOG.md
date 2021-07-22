@@ -1,6 +1,5 @@
 # Changelog
 
-## 1.0.5
+## 1.0.6
 
-- Support deleted cdn resource
-- Support automatic chosen scale value for the bandwidth metric
+- Update url for resources https://api.gcdn.co/cdn/resources

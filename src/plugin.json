@@ -47,7 +47,7 @@
     },
     {
       "path": "resources",
-      "url": "https://api.gcdn.co/resources",
+      "url": "https://api.gcdn.co/cdn/resources",
       "headers": [
         {
           "name": "Authorization",
