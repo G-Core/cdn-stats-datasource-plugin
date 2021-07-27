@@ -1,5 +1,5 @@
 # Changelog
 
-## 1.0.6
+## 1.0.7
 
-- Update url for resources https://api.gcdn.co/cdn/resources
+- Add support for human-friendly byte sizes (base 10)
