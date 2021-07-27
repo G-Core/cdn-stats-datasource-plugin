@@ -1,5 +1,5 @@
 # Changelog
 
-## 1.0.7
+## 1.0.8
 
-- Add support for human-friendly byte sizes (base 10)
+- Update company logo colors to black
