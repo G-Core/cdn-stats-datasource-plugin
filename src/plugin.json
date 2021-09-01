@@ -37,7 +37,7 @@
   "routes": [
     {
       "path": "statistics/aggregate/stats",
-      "url": "https://api.gcdn.co/statistics/aggregate/stats",
+      "url": "https://api.gcdn.co/cdn/statistics/aggregate/stats",
       "headers": [
         {
           "name": "Authorization",
