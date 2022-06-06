@@ -236,13 +236,17 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
         message: `You successfully authenticated as ${resp.data.name}`,
       };
     } catch (e) {
+      // @ts-ignore
       let message = e.statusText;
 
+      // @ts-ignore
       if (e.data && e.data.message) {
+        // @ts-ignore
         message = e.data.message;
       }
 
       return {
+        // @ts-ignore
         status: e.status,
         message: message,
       };
