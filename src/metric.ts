@@ -48,6 +48,11 @@ const config: Record<GCMetric, GCReportsConfig> = {
     label: "Total Requests",
     unit: GCUnit.Number,
   },
+  [GCServerMetric.RequestWafPassed]: {
+    originalMetric: GCServerMetric.RequestWafPassed,
+    label: "WAF requests",
+    unit: GCUnit.Number,
+  },
   [GCServerMetric.Responses2xx]: {
     originalMetric: GCServerMetric.Responses2xx,
     label: "2xx Responses",
@@ -66,6 +71,11 @@ const config: Record<GCMetric, GCReportsConfig> = {
   [GCServerMetric.Responses5xx]: {
     originalMetric: GCServerMetric.Responses5xx,
     label: "5xx Responses",
+    unit: GCUnit.Number,
+  },
+  [GCServerMetric.ImageProcessed]: {
+    originalMetric: GCServerMetric.ImageProcessed,
+    label: "Image optimization",
     unit: GCUnit.Number,
   },
   [GCServerMetric.CacheHitRequestsRatio]: {

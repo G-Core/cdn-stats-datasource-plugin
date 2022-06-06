@@ -13,6 +13,8 @@ export enum GCServerMetric {
   CacheHitRequestsRatio = "cache_hit_requests_ratio",
   CacheHitTrafficRatio = "cache_hit_traffic_ratio",
   ShieldTrafficRatio = "shield_traffic_ratio",
+  ImageProcessed = "image_processed",
+  RequestWafPassed = "requests_waf_passed",
 }
 
 export enum GCClientMetric {
