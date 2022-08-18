@@ -37,7 +37,7 @@
   "routes": [
     {
       "path": "statistics/aggregate/stats",
-      "url": "https://api.gcorelabs.com/cdn/statistics/aggregate/stats",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/cdn/statistics/aggregate/stats",
       "headers": [
         {
           "name": "Authorization",
@@ -47,7 +47,7 @@
     },
     {
       "path": "resources",
-      "url": "https://api.gcorelabs.com/cdn/resources",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/cdn/resources",
       "headers": [
         {
           "name": "Authorization",
@@ -57,7 +57,7 @@
     },
     {
       "path": "users/me",
-      "url": "https://api.gcorelabs.com/users/me",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/iam/users/me",
       "headers": [
         {
           "name": "Authorization",

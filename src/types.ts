@@ -84,6 +84,7 @@ export interface GCCdnResource {
 export interface GCDataSourceOptions extends DataSourceJsonData {
   path?: string;
   apiKey?: string;
+  apiUrl?: string;
 }
 
 /**
@@ -91,6 +92,10 @@ export interface GCDataSourceOptions extends DataSourceJsonData {
  */
 export interface GCSecureJsonData {
   apiKey?: string;
+}
+
+export interface GCJsonData {
+  apiUrl?: string;
 }
 
 export enum GCVariable {

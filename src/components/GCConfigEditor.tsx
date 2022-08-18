@@ -1,16 +1,15 @@
 import React, { ChangeEvent, PureComponent } from "react";
-import { InfoBox, LegacyForms, Legend } from "@grafana/ui";
+import { Alert, Legend, InlineField, Input, SecretInput } from "@grafana/ui";
 import { DataSourcePluginOptionsEditorProps } from "@grafana/data";
-import { GCDataSourceOptions, GCSecureJsonData } from "../types";
-import { getAuthorizationValue } from "../token";
-
-const { SecretFormField } = LegacyForms;
+import { GCDataSourceOptions, GCJsonData, GCSecureJsonData } from "../types";
+import { getAuthorizationValue, getHostnameValue } from "../token";
 
 interface Props
   extends DataSourcePluginOptionsEditorProps<GCDataSourceOptions> {}
 
 interface State {
   apiKey: string;
+  apiUrl: string;
 }
 
 export class GCConfigEditor extends PureComponent<Props, State> {
@@ -18,19 +17,36 @@ export class GCConfigEditor extends PureComponent<Props, State> {
     super(props);
     const secureJsonData = (props.options.secureJsonData ||
       {}) as GCSecureJsonData;
+    const jsonData = (props.options.jsonData || {}) as GCJsonData;
 
     this.state = {
       apiKey: secureJsonData.apiKey || "",
+      apiUrl: jsonData.apiUrl || "",
     };
   }
 
-  onAPIKeyChange = (event: ChangeEvent<HTMLInputElement>) => {
+  onApiUrlChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      apiUrl: event.target.value,
+    });
+  };
+
+  updateApiUrl = () => {
+    const { onOptionsChange, options } = this.props;
+    const apiUrl = getHostnameValue(this.state.apiUrl.trim());
+    onOptionsChange({
+      ...options,
+      jsonData: { apiUrl },
+    });
+  };
+
+  onApiKeyChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({
       apiKey: event.target.value,
     });
   };
 
-  updateAPIKey = () => {
+  updateApiKey = () => {
     const { onOptionsChange, options } = this.props;
     const apiKey = getAuthorizationValue(this.state.apiKey.trim());
     onOptionsChange({
@@ -39,7 +55,7 @@ export class GCConfigEditor extends PureComponent<Props, State> {
     });
   };
 
-  onResetAPIKey = () => {
+  onResetApiKey = () => {
     const { onOptionsChange, options } = this.props;
     onOptionsChange({
       ...options,
@@ -56,27 +72,56 @@ export class GCConfigEditor extends PureComponent<Props, State> {
 
   render() {
     const { options } = this.props;
-    const { apiKey } = this.state;
+    const { apiKey, apiUrl } = this.state;
     const { secureJsonFields } = options;
+    const isConfigured = secureJsonFields && secureJsonFields.apiKey;
 
     return (
       <>
-        <Legend>Auth</Legend>
+        <Legend>HTTP</Legend>
+
         <div className="gf-form-group">
-          <SecretFormField
-            isConfigured={secureJsonFields && secureJsonFields.apiKey}
-            value={apiKey}
-            label="API token"
-            placeholder="secure field"
-            labelWidth={8}
-            inputWidth={20}
-            onReset={this.onResetAPIKey}
-            onBlur={this.updateAPIKey}
-            onChange={this.onAPIKeyChange}
-          />
+          <InlineField
+            invalid={apiUrl === ""}
+            labelWidth={16}
+            error={apiUrl === "" ? "This input is required" : ""}
+            required={true}
+            label={"URL"}
+          >
+            <Input
+              value={apiUrl}
+              width={40}
+              placeholder={"API base url"}
+              onChange={this.onApiUrlChange}
+              onBlur={this.updateApiUrl}
+            />
+          </InlineField>
         </div>
+
         <div className="gf-form-group">
-          <InfoBox title="How to create a API token?">
+          <InlineField
+            invalid={apiKey === "" && !isConfigured}
+            labelWidth={16}
+            error={
+              apiKey === "" && !isConfigured ? "This input is required" : ""
+            }
+            required={true}
+            label="API token"
+          >
+            <SecretInput
+              isConfigured={isConfigured}
+              value={apiKey}
+              placeholder="Secure field"
+              width={40}
+              onReset={this.onResetApiKey}
+              onBlur={this.updateApiKey}
+              onChange={this.onApiKeyChange}
+            />
+          </InlineField>
+        </div>
+
+        <div className="gf-form-group">
+          <Alert title="How to create a API token?">
             <a
               href="https://support.gcorelabs.com/hc/en-us/articles/360018625617-API-tokens"
               target="_blank"
@@ -84,7 +129,7 @@ export class GCConfigEditor extends PureComponent<Props, State> {
             >
               https://support.gcorelabs.com/hc/en-us/articles/360018625617-API-tokens
             </a>
-          </InfoBox>
+          </Alert>
         </div>
       </>
     );

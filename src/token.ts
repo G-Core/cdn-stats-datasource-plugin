@@ -32,3 +32,14 @@ export const getAuthorizationValue = (token: string): string => {
   }
   return token;
 };
+
+export const stripTrailingSlash = (url: string): string => {
+  return url.endsWith("/") ? url.slice(0, -1) : url;
+};
+
+export const removeHttpPrefix = (url: string): string =>
+  url.replace(/^https?:\/\//, "");
+
+export const getHostnameValue = (url: string): string => {
+  return stripTrailingSlash(removeHttpPrefix(url));
+};

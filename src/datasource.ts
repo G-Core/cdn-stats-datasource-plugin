@@ -246,8 +246,7 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
       }
 
       return {
-        // @ts-ignore
-        status: e.status,
+        status: "error",
         message: message,
       };
     }
