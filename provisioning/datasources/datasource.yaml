@@ -11,4 +11,4 @@ datasources:
     jsonData:
       apiUrl: api.gcorelabs.com
     secureJsonData:
-      apiKey: APIKey 2459$b1ce4e505e724f5b1b79a8c45cde2eac36f8b13ce37a39774aa5709cb3b622a55d466d9c2fde79b96ff0e277be607f8d792e4348d9f567fa772e73c6038c3a1f
+      apiKey: 'APIKey 2459$b1ce4e505e724f5b1b79a8c45cde2eac36f8b13ce37a39774aa5709cb3b622a55d466d9c2fde79b96ff0e277be607f8d792e4348d9f567fa772e73c6038c3a1f'

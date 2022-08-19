@@ -1,8 +1,10 @@
 import React, { ChangeEvent, PureComponent } from "react";
-import { Alert, Legend, InlineField, Input, SecretInput } from "@grafana/ui";
+import { Alert, Legend, LegacyForms } from "@grafana/ui";
 import { DataSourcePluginOptionsEditorProps } from "@grafana/data";
 import { GCDataSourceOptions, GCJsonData, GCSecureJsonData } from "../types";
 import { getAuthorizationValue, getHostnameValue } from "../token";
+
+const { FormField, SecretFormField } = LegacyForms;
 
 interface Props
   extends DataSourcePluginOptionsEditorProps<GCDataSourceOptions> {}
@@ -81,47 +83,34 @@ export class GCConfigEditor extends PureComponent<Props, State> {
         <Legend>HTTP</Legend>
 
         <div className="gf-form-group">
-          <InlineField
-            invalid={apiUrl === ""}
-            labelWidth={16}
-            error={apiUrl === "" ? "This input is required" : ""}
-            required={true}
+          <FormField
             label={"URL"}
-          >
-            <Input
-              value={apiUrl}
-              width={40}
-              placeholder={"API base url"}
-              onChange={this.onApiUrlChange}
-              onBlur={this.updateApiUrl}
-            />
-          </InlineField>
-        </div>
-
-        <div className="gf-form-group">
-          <InlineField
-            invalid={apiKey === "" && !isConfigured}
-            labelWidth={16}
-            error={
-              apiKey === "" && !isConfigured ? "This input is required" : ""
-            }
+            labelWidth={8}
+            inputWidth={20}
+            placeholder={"API base url"}
+            value={apiUrl}
+            onChange={this.onApiUrlChange}
+            onBlur={this.updateApiUrl}
             required={true}
-            label="API token"
-          >
-            <SecretInput
-              isConfigured={isConfigured}
-              value={apiKey}
-              placeholder="Secure field"
-              width={40}
-              onReset={this.onResetApiKey}
-              onBlur={this.updateApiKey}
-              onChange={this.onApiKeyChange}
-            />
-          </InlineField>
+          />
         </div>
 
         <div className="gf-form-group">
-          <Alert title="How to create a API token?">
+          <SecretFormField
+            isConfigured={isConfigured}
+            label="API key"
+            placeholder="Secure field"
+            labelWidth={8}
+            inputWidth={20}
+            value={apiKey}
+            onChange={this.onApiKeyChange}
+            onBlur={this.updateApiKey}
+            onReset={this.onResetApiKey}
+          />
+        </div>
+
+        <div className="gf-form-group">
+          <Alert severity={"info"} title="How to create a API token?">
             <a
               href="https://support.gcorelabs.com/hc/en-us/articles/360018625617-API-tokens"
               target="_blank"
