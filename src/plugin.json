@@ -7,9 +7,9 @@
   "info": {
     "description": "",
     "author": {
-      "name": "G-Core",
-      "url": "https://gcorelabs.com/",
-      "email": "support@gcorelabs.com"
+      "name": "EdgeCenter",
+      "url": "https://edgecenter.ru/",
+      "email": "support@edgecenter.ru"
     },
     "keywords": ["cdn", "statistics"],
     "logos": {
@@ -19,11 +19,11 @@
     "links": [
       {
         "name": "Website",
-        "url": "https://github.com/G-Core/cdn-stats-datasource-plugin"
+        "url": "https://github.com/Edge-Center/cdn-stats-datasource-plugin"
       },
       {
         "name": "License",
-        "url": "https://github.com/G-Core/cdn-stats-datasource-plugin/blob/master/LICENSE"
+        "url": "https://github.com/Edge-Center/cdn-stats-datasource-plugin/blob/master/LICENSE"
       }
     ],
     "screenshots": [],
@@ -37,7 +37,7 @@
   "routes": [
     {
       "path": "statistics/aggregate/stats",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/cdn/statistics/aggregate/stats",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.edgecenter.ru{{end}}/cdn/statistics/aggregate/stats",
       "headers": [
         {
           "name": "Authorization",
@@ -47,7 +47,7 @@
     },
     {
       "path": "resources",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/cdn/resources",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.edgecenter.ru{{end}}/cdn/resources",
       "headers": [
         {
           "name": "Authorization",
@@ -57,7 +57,7 @@
     },
     {
       "path": "users/me",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/iam/users/me",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.edgecenter.ru{{end}}/iam/users/me",
       "headers": [
         {
           "name": "Authorization",
