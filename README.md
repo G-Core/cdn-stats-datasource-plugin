@@ -1,8 +1,8 @@
 # Grafana Data Source Plugin for Gcore CDN metrics
 
-[![Build](https://github.com/G-Core/cdn-stats-datasource-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/G-Core/cdn-stats-datasource-plugin/actions/workflows/ci.yml)
+[![Build](https://github.com/Edge-Center/cdn-stats-datasource-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/Edge-Center/cdn-stats-datasource-plugin/actions/workflows/ci.yml)
 
-This is a Grafana datasource plugin for G-Core Labs statistics.
+This is a Grafana datasource plugin for EdgeCenter statistics.
 
 ## What is Gcore Grafana Data Source Plugin?
 
@@ -34,7 +34,7 @@ datasources:
     isDafault: true
     version: 1
     jsonData:
-      apiUrl: api.gcorelabs.com
+      apiUrl: api.edgecenter.ru
     secureJsonData:
       apiKey: 'APIKey ...'
 ```
@@ -43,5 +43,5 @@ datasources:
 
 ### Total bytes by resources
 
-![total_bytes_by_resources](https://github.com/G-Core/cdn-stats-datasource-plugin/blob/master/screenshots/total_bytes_by_resources.png?raw=true)
+![total_bytes_by_resources](https://github.com/Edge-Center/cdn-stats-datasource-plugin/blob/master/screenshots/total_bytes_by_resources.png?raw=true)
 
