@@ -8,7 +8,7 @@ services:
       - 3000:3000/tcp
     volumes:
       # Use your plugin folder (e.g. redshift-datasource)
-      - ./dist:/var/lib/grafana/plugins/gcorelabs-cdn-stats-datasource
+      - ./dist:/var/lib/grafana/plugins/ec-cdn-stats-datasource
       - ./provisioning:/etc/grafana/provisioning
     environment:
       - TERM=linux

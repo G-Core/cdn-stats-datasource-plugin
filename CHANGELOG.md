@@ -1,5 +1,6 @@
 # Changelog
 
-## 1.0.9
+## 1.0.14
 
-- Updating url for stats
+- Add scripts for publishing
+- Rebranding

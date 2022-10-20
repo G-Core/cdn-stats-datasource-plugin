@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
   "name": "cdn-stats",
-  "id": "gcorelabs-cdn-stats-datasource",
+  "id": "ec-cdn-stats-datasource",
   "metrics": true,
   "info": {
     "description": "",
@@ -13,8 +13,8 @@
     },
     "keywords": ["cdn", "statistics"],
     "logos": {
-      "small": "img/logo-small.svg",
-      "large": "img/logo-large-black.png"
+      "small": "img/logo-ec-small.svg",
+      "large": "img/logo-ec-large-black.svg"
     },
     "links": [
       {

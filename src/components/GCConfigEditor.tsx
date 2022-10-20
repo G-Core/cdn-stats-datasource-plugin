@@ -112,11 +112,11 @@ export class GCConfigEditor extends PureComponent<Props, State> {
         <div className="gf-form-group">
           <Alert severity={"info"} title="How to create a API token?">
             <a
-              href="https://support.gcorelabs.com/hc/en-us/articles/360018625617-API-tokens"
+              href="https://support.edgecenter.ru/knowledge_base/item/257788?sid=57461"
               target="_blank"
               rel="noreferrer"
             >
-              https://support.gcorelabs.com/hc/en-us/articles/360018625617-API-tokens
+              https://support.edgecenter.ru/knowledge_base/item/257788?sid=57461
             </a>
           </Alert>
         </div>

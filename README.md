@@ -1,14 +1,14 @@
-# Grafana Data Source Plugin for Gcore CDN metrics
+# Grafana Data Source Plugin for EdgeCenter CDN metrics
 
 [![Build](https://github.com/Edge-Center/cdn-stats-datasource-plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/Edge-Center/cdn-stats-datasource-plugin/actions/workflows/ci.yml)
 
 This is a Grafana datasource plugin for EdgeCenter statistics.
 
-## What is Gcore Grafana Data Source Plugin?
+## What is EdgeCenter Grafana Data Source Plugin?
 
 Grafana supports a wide range of data sources, including Prometheus, MySQL, and even Datadog. There’s a good chance you can already visualize metrics from the systems you have set up.
 
-In our case this datasource plugin is backed by Gcore CDN statistics API.
+In our case this datasource plugin is backed by EdgeCenter CDN statistics API.
 
 ## Key Features
 
@@ -30,8 +30,8 @@ datasources:
     orgId: 1
     editable: true
     access: proxy
-    type: gcorelabs-cdn-stats-datasource
-    isDafault: true
+    type: ec-cdn-stats-datasource
+    isDefault: true
     version: 1
     jsonData:
       apiUrl: api.edgecenter.ru

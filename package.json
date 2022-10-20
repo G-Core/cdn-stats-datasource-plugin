@@ -1,5 +1,5 @@
 {
-  "name": "gcore-cdn-stats",
+  "name": "ec-cdn-stats",
   "version": "1.0.13",
   "description": "",
   "scripts": {
@@ -9,7 +9,10 @@
     "watch": "grafana-toolkit plugin:dev --watch",
     "sign": "grafana-toolkit plugin:sign",
     "lint": "eslint . --ext .tsx,.ts",
-    "lint:fix": "eslint . --ext .tsx,.ts --fix"
+    "lint:fix": "eslint . --ext .tsx,.ts --fix",
+    "publish:prod:patch": "npm version patch",
+    "publish:prod:minor": "npm version minor",
+    "publish:prod:major": "npm version major"
   },
   "husky": {
     "hooks": {
