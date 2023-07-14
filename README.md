@@ -34,7 +34,7 @@ datasources:
     isDafault: true
     version: 1
     jsonData:
-      apiUrl: api.gcorelabs.com
+      apiUrl: api.gcore.com
     secureJsonData:
       apiKey: 'APIKey ...'
 ```

@@ -8,8 +8,8 @@
     "description": "",
     "author": {
       "name": "G-Core",
-      "url": "https://gcorelabs.com/",
-      "email": "support@gcorelabs.com"
+      "url": "https://gcore.com/",
+      "email": "support@gcore.com"
     },
     "keywords": ["cdn", "statistics"],
     "logos": {
@@ -37,7 +37,7 @@
   "routes": [
     {
       "path": "statistics/aggregate/stats",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/cdn/statistics/aggregate/stats",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/cdn/statistics/aggregate/stats",
       "headers": [
         {
           "name": "Authorization",
@@ -47,7 +47,7 @@
     },
     {
       "path": "resources",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/cdn/resources",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/cdn/resources",
       "headers": [
         {
           "name": "Authorization",
@@ -57,7 +57,7 @@
     },
     {
       "path": "users/me",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcorelabs.com{{end}}/iam/users/me",
+      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/iam/users/me",
       "headers": [
         {
           "name": "Authorization",
