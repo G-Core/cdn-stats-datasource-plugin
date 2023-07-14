@@ -1,4 +1,4 @@
-import { defaults, omit } from "lodash";
+import { defaults, omit, range } from "lodash";
 import {
   DataFrame,
   DataQueryRequest,
@@ -21,6 +21,7 @@ import {
   GCStatsRequestData,
   GCVariable,
   GCVariableQuery,
+  Paginator,
 } from "./types";
 import {
   createGetterSample,
@@ -67,25 +68,15 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
       selector === GCVariable.Resource ||
       selector === GCVariable.Vhost
     ) {
-      const {
-        data,
-      }: {
-        data: GCCdnResource[];
-      } = await getBackendSrv().datasourceRequest({
-        method: "GET",
-        url: `${this.url}/resources`,
-        responseType: "json",
-        showErrorAlert: true,
-        params: { fields: "id,cname,client", deleted: true },
-      });
+      const cdnResource: GCCdnResource[] = await this.getAllGCCdnResources();
 
       switch (selector) {
         case GCVariable.Vhost:
-          return getValueVariable(data.map((item) => item.cname));
+          return getValueVariable(cdnResource.map((item) => item.cname));
         case GCVariable.Resource:
-          return getValueVariable(data.map((item) => item.id));
+          return getValueVariable(cdnResource.map((item) => item.id));
         case GCVariable.Client:
-          return getValueVariable(data.map((item) => item.client));
+          return getValueVariable(cdnResource.map((item) => item.client));
       }
     } else if (selector === GCVariable.Region) {
       return getValueVariable(regions);
@@ -94,6 +85,48 @@ export class DataSource extends DataSourceApi<GCQuery, GCDataSourceOptions> {
     }
 
     return [];
+  }
+
+  private async getAllGCCdnResources(): Promise<GCCdnResource[]> {
+    const getGCCdnResources = (
+      limit: number,
+      offset = 0
+    ): Promise<{ data: Paginator<GCCdnResource> }> =>
+      getBackendSrv().datasourceRequest({
+        method: "GET",
+        url: `${this.url}/resources`,
+        responseType: "json",
+        showErrorAlert: true,
+        params: {
+          fields: "id,cname,client",
+          deleted: true,
+          limit,
+          offset,
+        },
+      });
+
+    const limit = 1000;
+
+    const firstChunk = await getGCCdnResources(limit);
+
+    const cdnResourcesCount = firstChunk.data.count;
+
+    if (cdnResourcesCount <= limit) {
+      return firstChunk.data.results;
+    } else {
+      const restChunkRequests = range(
+        limit,
+        cdnResourcesCount,
+        limit
+      ).map((offset) => getGCCdnResources(limit, offset));
+
+      const restChunks = await Promise.all(restChunkRequests);
+
+      return restChunks.reduce(
+        (acc, current) => acc.concat(current.data.results),
+        firstChunk.data.results
+      );
+    }
   }
 
   prepareTargets(targets: GCQuery[]): GCQuery[] {

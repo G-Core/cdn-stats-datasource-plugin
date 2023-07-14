@@ -122,3 +122,10 @@ export interface GCResponseStats {
   dc?: string;
   resource?: number;
 }
+
+export interface Paginator<T> {
+  count: number;
+  next: string;
+  previous: string;
+  results: T[];
+}
