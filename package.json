@@ -1,13 +1,13 @@
 {
   "name": "gcore-cdn-stats",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
-    "sign": "grafana-toolkit plugin:sign",
+    "sign": "grafana-toolkit plugin:sign --rootUrls http://localhost:3000,http://localhost",
     "lint": "eslint . --ext .tsx,.ts",
     "lint:fix": "eslint . --ext .tsx,.ts --fix"
   },
