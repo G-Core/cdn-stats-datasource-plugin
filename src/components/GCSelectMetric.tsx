@@ -1,6 +1,5 @@
 import React from "react";
-import { Select } from "@grafana/ui";
-import { SelectCommonProps } from "@grafana/ui/components/Select/types";
+import { Select, SelectCommonProps } from "@grafana/ui";
 import { GCMetric } from "types";
 import { createOptions } from "../metric";
 

@@ -1,5 +1,4 @@
 import {
-  ArrayVector,
   FieldType,
   formatLabels,
   getDisplayProcessor,
@@ -8,11 +7,11 @@ import {
   TIME_SERIES_TIME_FIELD_NAME,
   TIME_SERIES_VALUE_FIELD_NAME,
   toDataFrame,
+  ScopedVars,
+  MetricFindValue,
 } from "@grafana/data";
 import { getTemplateSrv } from "@grafana/runtime";
 import { GCPoint, GCQuery } from "./types";
-import { ScopedVars } from "@grafana/data/types/ScopedVars";
-import { MetricFindValue } from "@grafana/data/types/datasource";
 import { TimeInSeconds } from "./times";
 
 export const renderTemplate = (
@@ -55,9 +54,7 @@ export const getTimeField = (data: GCPoint[], isMs = false): MutableField => ({
   name: TIME_SERIES_TIME_FIELD_NAME,
   type: FieldType.time,
   config: {},
-  values: new ArrayVector<number>(
-    data.map((val) => (isMs ? val[0] : val[0] * TimeInSeconds.MILLISECOND))
-  ),
+  values: data.map((val) => (isMs ? val[0] : val[0] * TimeInSeconds.MILLISECOND)),
 });
 
 export const getEmptyDataFrame = () => {
@@ -97,9 +94,7 @@ export const getValueField = ({
     displayNameFromDS,
     displayName: displayNameFromDS,
   },
-  values: new ArrayVector<number>(
-    data.map((val) => (transform ? transform(val[1]) : val[1]))
-  ),
+  values: data.map((val) => (transform ? transform(val[1]) : val[1])),
 });
 
 export interface LabelInfo {

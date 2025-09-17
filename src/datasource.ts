@@ -10,6 +10,7 @@ import {
   Labels,
   LoadingState,
   toDataFrame,
+  MetricFindValue,
 } from "@grafana/data";
 import { FetchResponse, getBackendSrv } from "@grafana/runtime";
 import {
@@ -38,7 +39,6 @@ import {
   takeStrings,
 } from "./utils";
 import { defaultQuery } from "./defaults";
-import { MetricFindValue } from "@grafana/data/types/datasource";
 import { regions } from "./regions";
 import { countries } from "countries";
 import { getUnit } from "./unit";
