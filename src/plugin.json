@@ -4,6 +4,9 @@
   "name": "cdn-stats",
   "id": "gcorelabs-cdn-stats-datasource",
   "metrics": true,
+  "backend": true,
+  "alerting": true,
+  "executable": "gcore-cdn-stats-datasource",
   "info": {
     "description": "",
     "author": {
@@ -11,10 +14,13 @@
       "url": "https://gcore.com/",
       "email": "support@gcore.com"
     },
-    "keywords": ["cdn", "statistics"],
+    "keywords": [
+      "cdn",
+      "statistics"
+    ],
     "logos": {
       "small": "img/logo-small.svg",
-      "large": "img/logo-large-black.png"
+      "large": "img/logo-large.svg"
     },
     "links": [
       {
@@ -41,7 +47,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "content": "{{ .SecureJsonData.apiKey }}"
+          "content": "APIKey {{ .SecureJsonData.apiKey }}"
         }
       ]
     },
@@ -51,17 +57,27 @@
       "headers": [
         {
           "name": "Authorization",
-          "content": "{{ .SecureJsonData.apiKey }}"
+          "content": "APIKey {{ .SecureJsonData.apiKey }}"
         }
       ]
     },
     {
       "path": "users/me",
-      "url": "https://{{if .JsonData.apiUrl }}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/iam/users/me",
+      "url": "https://{{if .JsonData.apiUrl}}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/users/me",
       "headers": [
         {
           "name": "Authorization",
-          "content": "{{ .SecureJsonData.apiKey }}"
+          "content": "APIKey {{ .SecureJsonData.apiKey }}"
+        }
+      ]
+    },
+    {
+      "path": "iam/users/me",
+      "url": "https://{{if .JsonData.apiUrl}}{{ .JsonData.apiUrl }}{{else}}api.gcore.com{{end}}/iam/users/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "content": "APIKey {{ .SecureJsonData.apiKey }}"
         }
       ]
     }

@@ -78,18 +78,12 @@ export interface GCCdnResource {
   client: number;
 }
 
-/**
- * These are options configured for each DataSource instance
- */
 export interface GCDataSourceOptions extends DataSourceJsonData {
   path?: string;
   apiKey?: string;
   apiUrl?: string;
 }
 
-/**
- * Value that is used in the backend, but never sent over HTTP to the frontend
- */
 export interface GCSecureJsonData {
   apiKey?: string;
 }
