@@ -1,6 +1,6 @@
 {
   "name": "gcore-cdn-stats",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "description": "",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
@@ -44,7 +44,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-webpack-plugin": "^4.0.1",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
-    "glob": "^10.5.0",
+    "glob": "^10.2.7",
     "husky": "^4.2.5",
     "identity-obj-proxy": "3.0.0",
     "imports-loader": "^5.0.0",
