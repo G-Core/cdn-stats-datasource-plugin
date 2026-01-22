@@ -20,7 +20,7 @@
         ],
         "logos": {
             "small": "img/logo-small.svg",
-            "large": "img/logo-large-black.png"
+            "large": "img/logo-large.svg"
         },
         "links": [
             {
@@ -34,7 +34,7 @@
         ],
         "screenshots": [],
         "version": "2.0.0",
-        "updated": "2026-01-15"
+        "updated": "2026-01-22"
     },
     "dependencies": {
         "grafanaDependency": ">=12.0.0",
