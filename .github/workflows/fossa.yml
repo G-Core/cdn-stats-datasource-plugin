@@ -1,11 +1,19 @@
 name: FOSSA
 
+permissions:
+  contents: read
+
+
 on:
   push:
   pull_request:
   workflow_dispatch:
   merge_group:
     types: [checks_requested]
+  workflow_call:
+    secrets:
+      FOSSA_PUB_API_KEY:
+        required: true
 
 jobs:
   fossa:
