@@ -35,7 +35,7 @@
     "@types/testing-library__jest-dom": "5.14.8",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
-    "copy-webpack-plugin": "^11.0.0",
+    "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^8.8.0",
@@ -66,7 +66,7 @@
     "webpack-virtual-modules": "^0.6.2"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "@emotion/css": "11.10.6",
