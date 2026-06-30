@@ -80,7 +80,8 @@
     "react-dom": "^18.3.0"
   },
   "resolutions": {
-    "immutable": "5.1.5"
+    "immutable": "5.1.5",
+    "dompurify": "3.3.2"
   },
   "packageManager": "yarn@1.22.22"
 }
